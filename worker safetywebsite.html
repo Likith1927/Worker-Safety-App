@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Worker Safety System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: white;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+        }
+        
+        nav h2 {
+            color: #00ffd5;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 14px;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 58px;
+            margin-bottom: 20px;
+        }
+        
+        .hero span {
+            color: #00ffd5;
+        }
+        
+        .hero p {
+            max-width: 520px;
+            opacity: 0.8;
+        }
+        
+        section {
+            padding: 130px 60px;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 40px;
+        }
+        
+        .status-box {
+            font-size: 24px;
+            margin-bottom: 35px;
+            border-left: 6px solid #00ffd5;
+            padding-left: 20px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 30px;
+        }
+        
+        button {
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 14px;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.35s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-6px) scale(1.08);
+        }
+        
+        .safe {
+            border-color: #00ffd5;
+        }
+        
+        .fall {
+            border-color: #ff4d4d;
+        }
+        
+        .heat {
+            border-color: #ffae00;
+        }
+        /* APPLICATIONS */
+        
+        .apps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        
+        .app-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .app-card:hover {
+            transform: scale(1.05);
+        }
+        /* APPLICATION DETAILS */
+        
+        .app-details {
+            margin-top: 35px;
+            display: none;
+        }
+        
+        .app-details.active {
+            display: block;
+        }
+        /* SCROLL ANIMATION */
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 0.9s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 50px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>WORKER SAFETY</h2>
+        <div>
+            <a href="#home">Home</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#applications">Applications</a>
+            <a href="#logs">Logs</a>
+        </div>
+    </nav>
+
+    <div class="hero reveal" id="home">
+        <h1>Smart <span>Worker Safety</span><br>Monitoring System</h1>
+        <p>
+            A digital platform designed to monitor worker safety conditions, record incidents, and improve emergency response.
+        </p>
+    </div>
+
+    <section id="dashboard" class="reveal">
+        <div class="glass">
+            <div id="statusBox" class="status-box">STATUS: SAFE</div>
+            <div class="buttons">
+                <button class="safe" onclick="setSafe()">SAFE</button>
+                <button class="fall" onclick="setFall()">FALL</button>
+                <button class="heat" onclick="setHeat()">HIGH TEMP</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="applications" class="reveal">
+        <div class="glass">
+            <h2>Applications</h2><br>
+
+            <div class="apps">
+                <div class="app-card" onclick="showApp('mfg')">🏭 Manufacturing Industries</div>
+                <div class="app-card" onclick="showApp('const')">🏗 Construction Sites</div>
+                <div class="app-card" onclick="showApp('ware')">📦 Warehouses</div>
+                <div class="app-card" onclick="showApp('chem')">🧪 Chemical Plants</div>
+            </div>
+
+            <div id="mfg" class="app-details">
+                <h3>Manufacturing Industries</h3>
+                <p>
+                    The system monitors worker safety near heavy machinery by detecting falls and unsafe temperature conditions. It helps supervisors take immediate action during emergencies and reduce workplace accidents.
+                </p>
+            </div>
+
+            <div id="const" class="app-details">
+                <h3>Construction Sites</h3>
+                <p>
+                    Workers are exposed to heights and hazardous environments. This system helps detect falls and alerts supervisors instantly, improving response time and saving lives.
+                </p>
+            </div>
+
+            <div id="ware" class="app-details">
+                <h3>Warehouses</h3>
+                <p>
+                    The application helps monitor worker movement and safety in large storage areas where accidents can occur due to lifting, stacking, or slips.
+                </p>
+            </div>
+
+            <div id="chem" class="app-details">
+                <h3>Chemical & Process Plants</h3>
+                <p>
+                    High temperature and hazardous conditions are common. The system helps identify unsafe environments and prevents exposure-related accidents.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="logs" class="reveal">
+        <div class="glass">
+            <h2>Alert History</h2><br>
+            <ul id="logList">
+                <li>System initialized — SAFE</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        Worker Safety Monitoring System
+    </footer>
+
+    <script>
+        function addLog(msg) {
+            const li = document.createElement("li");
+            li.textContent = msg + " | " + new Date().toLocaleTimeString();
+            document.getElementById("logList").appendChild(li);
+        }
+
+        function setSafe() {
+            statusBox.textContent = "STATUS: SAFE";
+            statusBox.style.borderLeftColor = "#00ffd5";
+            addLog("Worker marked SAFE");
+        }
+
+        function setFall() {
+            statusBox.textContent = "STATUS: FALL DETECTED";
+            statusBox.style.borderLeftColor = "#ff4d4d";
+            alert("EMERGENCY: Worker fall detected!");
+            addLog("FALL DETECTED");
+        }
+
+        function setHeat() {
+            statusBox.textContent = "STATUS: HIGH TEMPERATURE";
+            statusBox.style.borderLeftColor = "#ffae00";
+            alert("WARNING: High temperature detected!");
+            addLog("HIGH TEMPERATURE");
+        }
+
+        function showApp(id) {
+            document.querySelectorAll(".app-details").forEach(d => {
+                d.classList.remove("active");
+            });
+            document.getElementById(id).classList.add("active");
+        }
+
+        /* SCROLL EFFECT */
+        window.addEventListener("scroll", () => {
+            document.querySelectorAll(".reveal").forEach(el => {
+                const t = el.getBoundingClientRect().top;
+                if (t < window.innerHeight - 100 && t > -200) {
+                    el.classList.add("active");
+                } else {
+                    el.classList.remove("active");
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
